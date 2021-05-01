@@ -11,10 +11,20 @@ Fetches estimated travel time and distance for multiple destinations from the Go
 
 ## Installation
 
-You can install the package via composer:
+You can install the package via composer [VCS](https://getcomposer.org/doc/05-repositories.md#vcs) (package currently not available via packagist):
 
-```bash
-composer require mybit/laravel-google-distance-matrix
+```json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/flofloflo/laravel-google-distance-matrix"
+        }
+    ],
+    "require": {
+        "mybit/laravel-google-distance-matrix": "dev-master"
+    }
+}
 ```
 
 You can publish the config file with:
