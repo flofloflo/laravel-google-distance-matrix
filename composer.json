@@ -1,24 +1,24 @@
 {
-    "name": "vendor_slug/package_slug",
-    "description": ":package_description",
+    "name": "mybit/laravel-google-distance-matrix",
+    "description": "Laravel wrapper for the Google Distance Matrix API",
     "keywords": [
-        ":vendor_name",
+        "MyBit",
         "laravel",
-        "package_slug"
+        "laravel-google-distance-matrix"
     ],
-    "homepage": "https://github.com/vendor_slug/package_slug",
+    "homepage": "https://github.com/mybit/laravel-google-distance-matrix",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
-            "role": "Developer"
+            "name": "Florian Heller",
+            "email": "fh@my-b.it"
         }
     ],
     "require": {
-        "php": "^8.0",
-        "spatie/laravel-package-tools": "^1.4.3",
-        "illuminate/contracts": "^8.37"
+        "php": "^7.3|^8.0",
+        "guzzlehttp/guzzle": "^7.3",
+        "illuminate/contracts": "^8.37",
+        "spatie/laravel-package-tools": "^1.4.3"
     },
     "require-dev": {
         "brianium/paratest": "^6.2",
@@ -30,13 +30,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Mybit\\GoogleDistanceMatrix\\": "src",
+            "Mybit\\GoogleDistanceMatrix\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Mybit\\GoogleDistanceMatrix\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -50,10 +50,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Mybit\\GoogleDistanceMatrix\\GoogleDistanceMatrixServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\SkeletonFacade"
+                "GoogleDistanceMatrix": "Mybit\\GoogleDistanceMatrix\\GoogleDistanceMatrixFacade"
             }
         }
     },
