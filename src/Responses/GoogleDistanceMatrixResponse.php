@@ -78,7 +78,7 @@ class GoogleDistanceMatrixResponse
         }
 
         foreach ($this->responseObject->rows as $row) {
-            $elements = array();
+            $elements = [];
             foreach ($row->elements as $element) {
                 $duration = new Duration($element->duration->text, $element->duration->value);
                 $distance = new Distance($element->distance->text, $element->distance->value);

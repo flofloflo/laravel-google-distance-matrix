@@ -40,12 +40,14 @@ class GoogleDistanceMatrix
         if (is_null($this->language)) {
             $this->language = config('google-distance-matrix.defaults.language', self::LANGUAGE);
         }
+
         return $this->language;
     }
 
     public function setLanguage($language): GoogleDistanceMatrix
     {
         $this->language = $language;
+
         return $this;
     }
 
@@ -54,12 +56,14 @@ class GoogleDistanceMatrix
         if (is_null($this->units)) {
             $this->units = config('google-distance-matrix.defaults.units', self::UNITS_METRIC);
         }
+
         return $this->units;
     }
 
     public function setUnits($units): GoogleDistanceMatrix
     {
         $this->units = $units;
+
         return $this;
     }
 
@@ -71,6 +75,7 @@ class GoogleDistanceMatrix
     public function addOrigin($origin): GoogleDistanceMatrix
     {
         $this->origins[] = $origin;
+
         return $this;
     }
 
@@ -82,6 +87,7 @@ class GoogleDistanceMatrix
     public function addDestination($destination): GoogleDistanceMatrix
     {
         $this->destinations[] = $destination;
+
         return $this;
     }
 
@@ -90,12 +96,14 @@ class GoogleDistanceMatrix
         if (is_null($this->mode)) {
             $this->mode = config('google-distance-matrix.defaults.mode', self::MODE_DRIVING);
         }
+
         return $this->mode;
     }
 
     public function setMode($mode): GoogleDistanceMatrix
     {
         $this->mode = $mode;
+
         return $this;
     }
 
@@ -104,12 +112,14 @@ class GoogleDistanceMatrix
         if (is_null($this->avoid)) {
             $this->avoid = config('google-distance-matrix.defaults.avoid', self::AVOID_INDOOR);
         }
+
         return $this->avoid;
     }
 
     public function setAvoid($avoid): GoogleDistanceMatrix
     {
         $this->avoid = $avoid;
+
         return $this;
     }
 
@@ -123,7 +133,7 @@ class GoogleDistanceMatrix
             'destinations' => count($this->destinations) > 1 ? implode('|', $this->destinations) : $this->destinations[0],
             'mode' => $this->getMode(),
             'avoid' => $this->getAvoid(),
-            'units' => $this->getUnits()
+            'units' => $this->getUnits(),
         ];
         $parameters = http_build_query($data);
         $url = self::API_URL . '?' . $parameters;
@@ -150,6 +160,7 @@ class GoogleDistanceMatrix
         }
         $responseObject = new GoogleDistanceMatrixResponse(json_decode($response->getBody()->getContents()));
         $this->validateResponse($responseObject);
+
         return $responseObject;
     }
 
@@ -160,21 +171,27 @@ class GoogleDistanceMatrix
                 break;
             case GoogleDistanceMatrixResponse::RESPONSE_STATUS_INVALID_REQUEST:
                 throw new Exceptions\ResponseException("Invalid request.", 1);
+
                 break;
             case GoogleDistanceMatrixResponse::RESPONSE_STATUS_MAX_ELEMENTS_EXCEEDED:
                 throw new Exceptions\ResponseException("The product of the origin and destination exceeds the limit per request.", 2);
+
                 break;
             case GoogleDistanceMatrixResponse::RESPONSE_STATUS_OVER_QUERY_LIMIT:
                 throw new Exceptions\ResponseException("The service has received too many requests from your application in the allowed time range.", 3);
+
                 break;
             case GoogleDistanceMatrixResponse::RESPONSE_STATUS_REQUEST_DENIED:
                 throw new Exceptions\ResponseException("The service denied the use of the Distance Matrix API service by your application.", 4);
+
                 break;
             case GoogleDistanceMatrixResponse::RESPONSE_STATUS_UNKNOWN_ERROR:
                 throw new Exceptions\ResponseException("Unknown error.", 5);
+
                 break;
             default:
                 throw new Exceptions\ResponseException(sprintf("Unknown status code: %s", $response->getStatus()), 6);
+
                 break;
         }
     }
