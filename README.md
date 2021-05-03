@@ -1,12 +1,5 @@
 # Laravel wrapper for the Google Distance Matrix API
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/mybit/laravel-google-distance-matrix.svg?style=flat-square)](https://packagist.org/packages/mybit/laravel-google-distance-matrix)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/mybit/laravel-google-distance-matrix/run-tests?label=tests)](https://github.com/mybit/laravel-google-distance-matrix/actions?query=workflow%3Arun-tests+branch%3Amaster)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/mybit/laravel-google-distance-matrix/Check%20&%20fix%20styling?label=code%20style)](https://github.com/mybit/laravel-google-distance-matrix/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amaster)
-[![Total Downloads](https://img.shields.io/packagist/dt/mybit/laravel-google-distance-matrix.svg?style=flat-square)](https://packagist.org/packages/mybit/laravel-google-distance-matrix)
-
----
-
 Fetches estimated travel time and distance for multiple destinations from the Google Maps API.
 
 ## Installation
