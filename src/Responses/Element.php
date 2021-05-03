@@ -23,7 +23,7 @@ class Element
 
     public function __construct($status, Duration $duration, Distance $distance)
     {
-        if (!in_array($status, self::STATUS)) {
+        if (! in_array($status, self::STATUS)) {
             throw new Exception(sprintf('Unknown status code: %s', $status));
         }
         $this->status = $status;
