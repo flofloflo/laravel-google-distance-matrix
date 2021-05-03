@@ -30,84 +30,90 @@ class GoogleDistanceMatrix
     private $origins;
     private $units;
 
-    public function getApiKey() : string
+    public function getApiKey(): string
     {
         return config('google-distance-matrix.api_key');
     }
 
-    public function getLanguage() : string
+    public function getLanguage(): string
     {
+        if (is_null($this->language)) {
+            $this->language = config('google-distance-matrix.defaults.language', self::LANGUAGE);
+        }
         return $this->language;
     }
 
-    public function setLanguage($language = self::LANGUAGE) : GoogleDistanceMatrix
+    public function setLanguage($language): GoogleDistanceMatrix
     {
         $this->language = $language;
         return $this;
     }
 
-    public function getUnits() : string
+    public function getUnits(): string
     {
+        if (is_null($this->units)) {
+            $this->units = config('google-distance-matrix.defaults.units', self::UNITS_METRIC);
+        }
         return $this->units;
     }
 
-    public function setUnits($units = null) : GoogleDistanceMatrix
+    public function setUnits($units): GoogleDistanceMatrix
     {
-        if(is_null($units)) {
-            $units = config('google-distance-matrix.defaults.units', self::UNITS_METRIC);
-        }
         $this->units = $units;
         return $this;
     }
 
-    public function getOrigins() : array
+    public function getOrigins(): array
     {
         return $this->origins;
     }
 
-    public function addOrigin($origin) : GoogleDistanceMatrix
+    public function addOrigin($origin): GoogleDistanceMatrix
     {
         $this->origins[] = $origin;
         return $this;
     }
 
-    public function getDestinations() : array
+    public function getDestinations(): array
     {
         return $this->destinations;
     }
 
-    public function addDestination($destination) : GoogleDistanceMatrix
+    public function addDestination($destination): GoogleDistanceMatrix
     {
         $this->destinations[] = $destination;
         return $this;
     }
 
-    public function getMode() : string
+    public function getMode(): string
     {
+        if (is_null($this->mode)) {
+            $this->mode = config('google-distance-matrix.defaults.mode', self::MODE_DRIVING);
+        }
         return $this->mode;
     }
 
-    public function setMode($mode = null) : GoogleDistanceMatrix
+    public function setMode($mode): GoogleDistanceMatrix
     {
-        if(is_null($mode)) {
-            $mode = config('google-distance-matrix.defaults.mode', self::MODE_DRIVING);
-        }
         $this->mode = $mode;
         return $this;
     }
 
-    public function getAvoid() : string
+    public function getAvoid(): string
     {
+        if (is_null($this->avoid)) {
+            $this->avoid = config('google-distance-matrix.defaults.avoid', self::AVOID_INDOOR);
+        }
         return $this->avoid;
     }
 
-    public function setAvoid($avoid) : GoogleDistanceMatrix
+    public function setAvoid($avoid): GoogleDistanceMatrix
     {
         $this->avoid = $avoid;
         return $this;
     }
 
-    public function sendRequest() : GoogleDistanceMatrixResponse
+    public function sendRequest(): GoogleDistanceMatrixResponse
     {
         $this->validateRequest();
         $data = [
@@ -120,12 +126,12 @@ class GoogleDistanceMatrix
             'units' => $this->getUnits()
         ];
         $parameters = http_build_query($data);
-        $url = self::API_URL.'?'.$parameters;
+        $url = self::API_URL . '?' . $parameters;
 
         return $this->request('GET', $url);
     }
 
-    private function validateRequest() : void
+    private function validateRequest(): void
     {
         if (empty($this->getOrigins())) {
             throw new Exceptions\OriginException('The origin must be set.');
@@ -135,19 +141,19 @@ class GoogleDistanceMatrix
         }
     }
 
-    private function request($type = 'GET', $url) : GoogleDistanceMatrixResponse
+    private function request($type = 'GET', $url): GoogleDistanceMatrixResponse
     {
         $client = new Client();
         $response = $client->request($type, $url);
         if ($response->getStatusCode() !== 200) {
-            throw new \Exception('Response with status code '.$response->getStatusCode());
+            throw new \Exception('Response with status code ' . $response->getStatusCode());
         }
         $responseObject = new GoogleDistanceMatrixResponse(json_decode($response->getBody()->getContents()));
         $this->validateResponse($responseObject);
         return $responseObject;
     }
 
-    private function validateResponse(GoogleDistanceMatrixResponse $response) : void
+    private function validateResponse(GoogleDistanceMatrixResponse $response): void
     {
         switch ($response->getStatus()) {
             case GoogleDistanceMatrixResponse::RESPONSE_STATUS_OK:
@@ -168,7 +174,7 @@ class GoogleDistanceMatrix
                 throw new Exceptions\ResponseException("Unknown error.", 5);
                 break;
             default:
-                throw new Exceptions\ResponseException(sprintf("Unknown status code: %s",$response->getStatus()), 6);
+                throw new Exceptions\ResponseException(sprintf("Unknown status code: %s", $response->getStatus()), 6);
                 break;
         }
     }
